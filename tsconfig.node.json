@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"],
+  "vueCompilerOptions": {
+    "experimentalCompatMode": 2, // delete after migrating to vue3 (or nuxt3)
+    "experimentalTemplateCompilerOptions": {
+      "compatConfig": {
+        "MODE": 2
+      } // delete after migrating to vue3 (or nuxt3)
+    }
+  }
+}
