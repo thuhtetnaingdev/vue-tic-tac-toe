@@ -21,4 +21,10 @@ h1 {
     width: 460px;
     margin: auto;
 }
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 370px;
+    }
+}
 </style>

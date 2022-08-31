@@ -133,4 +133,11 @@ function checkWinOrDraw() {
     margin: auto;
     font-size: 3.3rem;
 }
+
+@media only screen and (max-width: 600px) {
+    .btn {
+        width: 120px !important;
+        height: 120px !important;
+    }
+}
 </style>
