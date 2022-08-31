@@ -4,10 +4,10 @@ interface Clicked {
 
 interface PlayerClick {
   playerOne: Clicked;
-  playerTwo: Clicked;
+  computer: Clicked;
 }
 
-type Payload = { player: "One" | "Two"; click: number };
+type Payload = { player: boolean; click: number };
 
 export default {
   state(): PlayerClick {
@@ -15,7 +15,7 @@ export default {
       playerOne: {
         clicked: [],
       },
-      playerTwo: {
+      computer: {
         clicked: [],
       },
     };
@@ -24,21 +24,24 @@ export default {
     playerOneClicks(state: PlayerClick) {
       return state.playerOne.clicked;
     },
-    playerTwoClicks(state: PlayerClick) {
-      return state.playerTwo.clicked;
+    computerClicks(state: PlayerClick) {
+      return state.computer.clicked;
+    },
+    allClicks(state: PlayerClick) {
+      return [...state.playerOne.clicked, ...state.computer.clicked];
     },
   },
   mutations: {
-    updateClicks(state: PlayerClick, { player, click }: Payload) {
-      if (player === "One") {
+    updateClicks(state: PlayerClick, { click, player }: Payload) {
+      if (player) {
         state.playerOne.clicked.push(click);
       } else {
-        state.playerTwo.clicked.push(click);
+        state.computer.clicked.push(click);
       }
     },
     resetClicks(state: PlayerClick) {
       state.playerOne.clicked = [];
-      state.playerTwo.clicked = [];
+      state.computer.clicked = [];
     },
   },
   actions: {

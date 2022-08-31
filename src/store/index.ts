@@ -1,13 +1,14 @@
 import { createStore } from "vuex";
 import clicked from "./clicked";
-import { player, playersScorces } from "./player";
+import user from "./user";
 import win from "./win";
+import scores from "./scores";
 
 export const store = createStore({
   modules: {
-    player,
-    playersScorces,
     win,
-    clicked: clicked,
+    clicked,
+    user,
+    scores
   },
 });

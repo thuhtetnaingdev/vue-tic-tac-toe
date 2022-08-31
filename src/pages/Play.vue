@@ -1,16 +1,24 @@
 <script lang="ts" setup>
 import ButtonsComponents from '../components/ButtonsComponents/index.vue';
+import PlayerScore from '../components/PlayerScore/index.vue';
 
 </script>
 <template>
     <div class="container">
         <h1 style="text-align: center;">Tic Tac Toe</h1>
+        <PlayerScore style="margin-bottom: 0.7rem;" />
         <ButtonsComponents />
     </div>
 </template>
 
-<style>
+<style scoped>
 h1 {
     color: white;
+    margin: 16px 0;
+}
+
+.container {
+    width: 460px;
+    margin: auto;
 }
 </style>

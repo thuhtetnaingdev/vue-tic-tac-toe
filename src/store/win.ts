@@ -2,13 +2,12 @@ type Player = "One" | "Two";
 
 interface Win {
   draw?: boolean;
-  win?: boolean;
-  player: null | Player;
+  win?: boolean | null;
   modal: boolean;
 }
 
 interface Commit {
-  commit: (mut: string, player?: Player) => void;
+  commit: (mut: string, playload?: any) => void;
 }
 
 interface Status {
@@ -20,8 +19,7 @@ export default {
     return {
       status: {
         draw: false,
-        win: false,
-        player: null,
+        win: null,
         modal: false,
       },
     };
@@ -35,38 +33,37 @@ export default {
     },
   },
   mutations: {
-    updateWin(state: Status) {
-      state.status.win = true;
+    updateWin(state: Status, win: boolean) {
+      state.status.win = win;
     },
     updateDraw(state: Status) {
       state.status.draw = true;
-    },
-    updatePlayer(state: Status, player: Player) {
-      state.status.player = player;
     },
     openModal(state: Status) {
       state.status.modal = true;
     },
     reset(state: Status) {
       state.status.draw = false;
-      state.status.win = false;
-      state.status.player = null;
+      state.status.win = null;
       state.status.modal = false;
     },
   },
   actions: {
     updateStatus(
       { commit }: Commit,
-      { win, player }: { win: boolean; player: Player }
+      { win, draw }: { win?: boolean; draw: boolean }
     ) {
-      if (win) {
-        commit("updateWin");
-        commit("updatePlayer", player);
-        commit("openModal");
-      } else {
+      if (draw) {
         commit("updateDraw");
-        commit("openModal");
+      } else {
+        if (win) {
+          commit("setPlayerWin", 1);
+        } else {
+          commit("setComputerWin", 1);
+        }
+        commit("updateWin", win);
       }
+      commit("openModal");
     },
   },
 };

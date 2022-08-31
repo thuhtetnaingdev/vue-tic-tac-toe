@@ -5,6 +5,8 @@ import PrimeVue from "primevue/config";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import DialogService from "primevue/dialogservice";
+import Card from "primevue/card";
+import InputText from "primevue/inputtext";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "./routes";
 
@@ -33,4 +35,7 @@ app.use(ConfirmationService);
 app.use(DialogService);
 app.component("Button", Button);
 app.component("Dialog", Dialog);
+app.component("Card", Card);
+app.component("InputText", InputText);
+
 app.mount("#app");

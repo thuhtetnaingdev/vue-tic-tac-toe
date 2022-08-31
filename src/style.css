@@ -6,5 +6,10 @@
 
 html {
   background-color: #17202A;
-  font-family: 'Lobster', cursive;
+  font-family: 'Quicksand', sans-serif;
+  /* font-family: 'Lobster', cursive; */
+}
+
+.text {
+  color: #ffffff;
 }

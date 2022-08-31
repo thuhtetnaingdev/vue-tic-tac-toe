@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import Dialog from 'primevue/dialog';
 import { useStore } from 'vuex'
+
+const props = defineProps<{ reset: () => void }>()
 
 const store = useStore()
 
@@ -9,13 +11,15 @@ const headerStatus = computed(() => {
     if (store.getters.getDrawState) {
         return 'Draw'
     } else {
-        return 'Player ' + store.state.win.status.player + ' Win'
+        const player = store.getters.getWinState ? 'Win' : 'Lose'
+        return 'You ' + player
     }
 })
 
 function handleClick() {
-    store.commit('resetClicks')
-    store.commit('reset')
+    store.commit('resetClicks');
+    store.commit('reset');
+    props.reset()
 }
 
 </script>
