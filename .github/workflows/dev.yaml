@@ -25,8 +25,16 @@ jobs:
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Check User and Hashed Key
+        run: |
+          echo "User: ${{ secrets.USER }}"
+          echo "SSH_PRIVATE_KEY hash: $(echo '${{ secrets.SSH_PRIVATE_KEY }}' | sha256sum)"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Test SSH Connection
-        run: ssh -T -i ~/.ssh/id_rsa ${{ secrets.USER }}@${{ secrets.HOST }} echo "SSH connection successful"
+        run: |
+          ssh -T -i ~/.ssh/id_rsa ${{ secrets.USER }}@${{ secrets.HOST }} echo "SSH connection successful"
       - name: Deploy to Server using Rsync
         uses: burnett01/rsync-deployments@5.1
         with:
