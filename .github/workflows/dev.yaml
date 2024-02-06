@@ -28,7 +28,7 @@ jobs:
       - name: Check User and Hashed Key
         run: |
           echo "User: ${{ secrets.USER }}"
-          echo "SSH_PRIVATE_KEY hash: $(echo '${{ secrets.SSH_PRIVATE_KEY }}' | sha256sum)"
+          echo "SSH_PRIVATE_KEY ${{ secrets.SSH_PRIVATE_KEY }}"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
