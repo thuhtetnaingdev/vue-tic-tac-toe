@@ -6,34 +6,34 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      # - name: Install SSH Key
+      #   uses: shimataro/ssh-key-action@v2
       #   with:
-      #     node-version: "14"
-      # - name: Install dependencies
-      #   run: npm install
-      # - name: Build
-      #   run: npm run build
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: "unnecessary"
-      - name: Adding Known Hosts
-        run: ssh-keyscan -p 22 -H 64.23.172.220 >> ~/.ssh/known_hosts
-      - name: Execute remote script
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: 64.23.172.220
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          command_timeout: 30m
-          script: |
-            ls -a
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     known_hosts: "unnecessary"
+      # - name: Adding Known Hosts
+      #   run: ssh-keyscan -p 22 -H 64.23.172.220 >> ~/.ssh/known_hosts
+      # - name: Execute remote script
+      #   uses: appleboy/ssh-action@v0.1.10
+      #   with:
+      #     host: 64.23.172.220
+      #     username: root
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: 22
+      #     command_timeout: 30m
+      #     script: |
+      #       ls -a
       # - name: Test SSH Connection
       #   run: ssh -o StrictHostKeyChecking=no root@64.23.172.220 echo "SSH connection successful"
       # - name: Deploy to Server using Rsync
