@@ -23,11 +23,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: "unnecessary"
 
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
       - name: Adding Known Hosts
         run: ssh-keyscan -p 22 -H 64.23.172.220 >> ~/.ssh/known_hosts
       - name: Test SSH Connection
-        # run: ssh -T -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} echo "SSH connection successful"
-        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} root@64.23.172.220
+        run: ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@64.23.172.220 echo "SSH connection successful"
       # - name: Deploy to Server using Rsync
       #   uses: burnett01/rsync-deployments@5.1
       #   with:
