@@ -17,24 +17,12 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build # Adjust or remove based on your project
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Check User and Hashed Key
-        run: |
-          echo "User: ${{ secrets.USER }}"
-          echo "SSH_PRIVATE_KEY ${{ secrets.SSH_PRIVATE_KEY }}"
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.5.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Test SSH Connection
-        run: |
-          ssh -T -i ~/.ssh/id_rsa ${{ secrets.USER }}@${{ secrets.HOST }} echo "SSH connection successful"
+        run: ssh -T -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} echo "SSH connection successful"
       - name: Deploy to Server using Rsync
         uses: burnett01/rsync-deployments@5.1
         with:
