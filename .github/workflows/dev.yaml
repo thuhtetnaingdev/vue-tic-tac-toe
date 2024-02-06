@@ -20,6 +20,7 @@ jobs:
           npm run build
           # cd ~
           # pm2 restart 0
+          # sudo service nginx restart
       # - name: Install SSH Key
       #   uses: shimataro/ssh-key-action@v2
       #   with:
