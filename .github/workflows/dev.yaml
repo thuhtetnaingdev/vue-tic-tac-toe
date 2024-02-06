@@ -17,18 +17,20 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build # Adjust or remove based on your project
-      - name: Install SSH key and Set SSH Known Hosts
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to Server using Rsync
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
-          path: ./
-          remote_path: "/var/www/dev"
+          path: ./build/ # Updated to reflect the build directory
+          remote_path: "/var/www/dev" # Ensure this matches your server's target directory
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USER }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
