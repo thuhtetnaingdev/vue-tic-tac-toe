@@ -5,7 +5,7 @@ import PlayerScore from '../components/PlayerScore/index.vue';
 </script>
 <template>
     <div class="container">
-        <h1 style="text-align: center;">Tic Tac Toe</h1>
+        <h1 style="text-align: center;">Tic Tac Toe, Hi Jojo</h1>
         <PlayerScore style="margin-bottom: 0.7rem;" />
         <ButtonsComponents />
     </div>
