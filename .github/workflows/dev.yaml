@@ -1,40 +1,30 @@
-name: CI/CD Pipeline
+name: CI/CD
 
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "npm"
-      - run: npm install
-      - run: npm run build
-      - run: ls -la
+        uses: actions/checkout@v2
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: "unnecessary"
+      - name: Install dependencies
+        run: npm install
 
-      - name: Deploy project with Rsync
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avzr --delete"
-          SOURCE: "./"
-          TARGET: "/var/www/dev"
-          REMOTE_HOST: "64.23.172.220"
-          REMOTE_USER: "web"
-          REMOTE_PORT: "22"
-          EXCLUDE: "/node_modules/"
+      - name: Build application
+        run: npm run build
+
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            ls
