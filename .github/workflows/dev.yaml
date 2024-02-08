@@ -26,7 +26,10 @@ jobs:
           known_hosts: "unnecessary"
 
       - name: Adding Known Hosts
-        run: ssh-keyscan -p 22 -H 64.23.172.220 >> ~/.ssh/known_hosts
+        run: ssh-keyscan -p 22 -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avz --delete --exclude-from=".github/workflows/rsync-excludes.txt" -e 'ssh -p 22' . ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/dev/tictac
 
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
