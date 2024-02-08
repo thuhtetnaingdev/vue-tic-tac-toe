@@ -35,6 +35,6 @@ jobs:
           SOURCE: "./"
           TARGET: "/var/www/dev"
           REMOTE_HOST: "64.23.172.220"
-          REMOTE_USER: "root"
+          REMOTE_USER: "web"
           REMOTE_PORT: "22"
           EXCLUDE: "/node_modules/"
