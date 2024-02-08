@@ -29,16 +29,14 @@ jobs:
         run: ssh-keyscan -p 22 -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        #   # run: rsync -avz --delete --exclude-from=".github/workflows/rsync-excludes.txt" -e 'ssh -p 22' . ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/dev/tictac
         run: rsync -avz --delete --no-perms --chown=web:web --exclude-from=".github/workflows/rsync-excludes.txt" -e 'ssh -p 22' . ${{ secrets.USER }}@${{ secrets.HOST }}:/var/www/dev/tictac
 
-      # - name: Deploy to DigitalOcean
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.HOST }}
-      #     username: ${{ secrets.USER }}
-      #     # password: ${{ secrets.PASSWORD }}
-      #     key: ${{secrets.SSH_PRIVATE_KEY}}
-      #     port: 22
-      #     script: |
-      #       ls
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          port: 22
+          script: |
+            pm2 restart all
